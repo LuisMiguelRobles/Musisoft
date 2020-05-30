@@ -1,9 +1,7 @@
-﻿using System.Net;
-
-namespace Application.Errors
+﻿namespace Application.Errors
 {
     using System;
-
+    using System.Net;
     public class RestException : Exception
     {
         public HttpStatusCode Code { get; }

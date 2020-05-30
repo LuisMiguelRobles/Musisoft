@@ -1,7 +1,6 @@
-﻿using FluentValidation;
-
-namespace Application.User.Validators
+﻿namespace Application.User.Validators
 {
+    using FluentValidation;
     public static class ValidatorExtensions
     {
         public static IRuleBuilder<T, string> Password<T>(this IRuleBuilder<T, string> ruleBuilder)

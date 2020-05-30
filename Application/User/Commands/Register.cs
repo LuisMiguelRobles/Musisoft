@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Interfaces;
-using Domain;
-using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Persistence;
-using System.Linq;
-using System.Net;
-using Application.Errors;
-using Application.User.Validators;
-using Microsoft.EntityFrameworkCore;
-
-namespace Application.User.Commands
+﻿namespace Application.User.Commands
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Application.Interfaces;
+    using Domain;
+    using FluentValidation;
+    using MediatR;
+    using Microsoft.AspNetCore.Identity;
+    using Persistence;
+    using System.Net;
+    using Application.Errors;
+    using Application.User.Validators;
+    using Microsoft.EntityFrameworkCore;
     public class Register
     {
         public class Command : IRequest<User>

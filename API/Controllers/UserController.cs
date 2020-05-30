@@ -1,10 +1,9 @@
-﻿using Application.User;
-using Application.User.Commands;
-using Microsoft.AspNetCore.Authorization;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
+    using Application.User;
+    using Application.User.Commands;
     using Application.User.Queries;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 

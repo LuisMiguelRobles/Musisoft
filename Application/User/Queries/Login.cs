@@ -1,14 +1,12 @@
-﻿using System;
-using System.Net;
-using Application.Errors;
-using Application.Interfaces;
-
-namespace Application.User.Queries
+﻿namespace Application.User.Queries
 {
+    using Application.Errors;
+    using Application.Interfaces;
     using Domain;
     using FluentValidation;
     using MediatR;
     using Microsoft.AspNetCore.Identity;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 

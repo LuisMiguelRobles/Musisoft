@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Interfaces;
-using Domain;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-
-namespace Application.User.Queries
+﻿namespace Application.User.Queries
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Application.Interfaces;
+    using Domain;
+    using MediatR;
+    using Microsoft.AspNetCore.Identity;
     public class CurrentUser
     {
         public class Query: IRequest<User> { }
