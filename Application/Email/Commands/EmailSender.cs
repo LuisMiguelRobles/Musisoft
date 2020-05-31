@@ -1,9 +1,12 @@
-﻿using System;
-
-namespace Application.Email.Commands
+﻿namespace Application.Email.Commands
 {
+    using FluentValidation;
     using Interfaces;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using Persistence;
+    using System;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -11,21 +14,42 @@ namespace Application.Email.Commands
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public Guid CampaignId { get; set; }
+            public Guid CompanyId { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.CompanyId).NotEmpty();
+                RuleFor(x => x.CampaignId).NotEmpty();
+            }
         }
 
         public class Handler : IRequestHandler<Command>
         {
+            private readonly DataContext _context;
             private readonly IEmailSender _emailSender;
 
-            public Handler(IEmailSender emailSender)
+            public Handler(DataContext context, IEmailSender emailSender)
             {
+                _context = context;
                 _emailSender = emailSender;
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _emailSender.SendEmailAsync("luismirobles97@gmail.com", "test", "Este es un test").ConfigureAwait(false);
-                
+                var campaign = await _context.Campaigns.FindAsync(request.CampaignId);
+                var companyContacts = await _context.CompanyContacts.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
+                if (companyContacts.Any())
+                {
+                    foreach (var companyContact in companyContacts)
+                    {
+                        await _emailSender.SendEmailAsync(companyContact.Contact.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
+                    }
+                }
+
+
                 return await Task.FromResult(Unit.Value);
             }
         }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     using Application.Email.Commands;
     using MediatR;
@@ -9,12 +7,9 @@ namespace API.Controllers
 
     public class EmailSenderController : BaseController
     {
-
-
         [HttpPost]
-        public async Task<ActionResult<Unit>> Create(Guid id, EmailSender.Command command)
+        public async Task<ActionResult<Unit>> Send(EmailSender.Command command)
         {
-            command.Id = id;
             return await Mediator.Send(command);
         }
     }
