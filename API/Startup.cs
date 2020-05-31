@@ -1,12 +1,7 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using Infrastructure.Mailing;
 
 namespace API
 {
-    using Middleware;
     using Application.Activities.Commands;
     using Application.Activities.Queries;
     using Application.Interfaces;
@@ -14,15 +9,21 @@ namespace API
     using FluentValidation.AspNetCore;
     using Infrastructure.Security;
     using MediatR;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Authorization;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+    using Middleware;
     using Persistence;
+    using System.Text;
 
     public class Startup
     {
@@ -83,9 +84,11 @@ namespace API
                         ValidateIssuer = false
                     };
                 });
-
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
