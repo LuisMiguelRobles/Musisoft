@@ -44,7 +44,7 @@ namespace API
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .WithExposedHeaders("WWW-Authenticate")
-                        .WithOrigins("http://localhost:3000")
+                        .WithOrigins("https://musisoft-crm.azurewebsites.net/")
                         .AllowCredentials();
                 });
             });
