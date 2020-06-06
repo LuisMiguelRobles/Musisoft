@@ -1,5 +1,3 @@
-using Infrastructure.Mailing;
-
 namespace API
 {
     using Application.Activities.Commands;
@@ -7,6 +5,7 @@ namespace API
     using Application.Interfaces;
     using Domain;
     using FluentValidation.AspNetCore;
+    using Infrastructure.Mailing;
     using Infrastructure.Security;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -72,7 +71,7 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c3VwZXIgc2VjcmV0IGtleQ=="));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
