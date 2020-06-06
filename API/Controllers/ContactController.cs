@@ -34,17 +34,17 @@
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Unit>> Edit(Guid id, Application.Activities.Commands.Create.Command command)
+        public async Task<ActionResult<Unit>> Edit(Guid id, Create.Command command)
         {
             command.Id = id;
             return await Mediator.Send(command);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(Guid id, Application.Activities.Commands.Create.Command command)
+        public async Task<ActionResult<Unit>> Delete(Guid id, Create.Command command)
         {
             command.Id = id;
-            return await Mediator.Send(new Application.Activities.Commands.Delete.Command { Id = id });
+            return await Mediator.Send(new Delete.Command { Id = id });
         }
     }
 }

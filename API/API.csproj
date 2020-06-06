@@ -23,4 +23,5 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>22469594-3896-408a-a97e-cb12953e848c</UserSecretsId>
   </PropertyGroup>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
