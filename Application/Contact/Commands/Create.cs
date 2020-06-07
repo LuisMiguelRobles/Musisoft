@@ -1,10 +1,14 @@
 ﻿namespace Application.Contact.Commands
 {
     using Domain;
+    using Errors;
     using FluentValidation;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
     using Persistence;
     using System;
+    using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -22,7 +26,7 @@
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Email).EmailAddress();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
             }
@@ -38,6 +42,13 @@
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+
+                if (await _context.Contacts.Where(x => x.Email == request.Email)
+                    .AnyAsync(cancellationToken))
+                {
+                    throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exits" });
+                }
+
                 var contact = new Contact
                 {
                     Email = request.Email,

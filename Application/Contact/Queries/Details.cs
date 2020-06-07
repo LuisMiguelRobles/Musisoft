@@ -29,7 +29,7 @@
                 var contact = await _context.Contacts.FindAsync(request.Id);
 
                 if (contact == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { activity = "Not found" });
+                    throw new RestException(HttpStatusCode.NotFound, new { Contact = "Not found" });
 
                 return contact;
             }

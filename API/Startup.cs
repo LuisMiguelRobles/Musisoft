@@ -1,5 +1,3 @@
-using Infrastructure.Mailing;
-
 namespace API
 {
     using Application.Activities.Commands;
@@ -7,6 +5,7 @@ namespace API
     using Application.Interfaces;
     using Domain;
     using FluentValidation.AspNetCore;
+    using Infrastructure.Mailing;
     using Infrastructure.Security;
     using MediatR;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,8 +20,10 @@ namespace API
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
+    using Microsoft.OpenApi.Models;
     using Middleware;
     using Persistence;
+    using System;
     using System.Text;
 
     public class Startup
@@ -45,15 +46,14 @@ namespace API
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .WithExposedHeaders("WWW-Authenticate")
-                        .WithOrigins("http://localhost:3000")
+                        .WithOrigins("https://musisoft-crm.azurewebsites.net/")
                         .AllowCredentials();
                 });
             });
 
             services.AddDbContext<DataContext>(opt =>
             {
-
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -72,7 +72,7 @@ namespace API
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
             
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c3VwZXIgc2VjcmV0IGtleQ=="));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
@@ -84,6 +84,30 @@ namespace API
                         ValidateIssuer = false
                     };
                 });
+
+            services.AddSwaggerGen(c =>
+            {
+             
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Musisoft API",
+                    Description = "Musisoft API ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Luis Robles",
+                        Email = "luis.380162110372@ucaldas.edu.co"
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license")
+                    }
+                });
+                c.CustomSchemaIds(i => i.FullName);
+            });
+
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
             
             services.AddScoped<IJwtGenerator, JwtGenerator>();
@@ -95,6 +119,7 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseSwagger();
 
             if (env.IsDevelopment())
             {
@@ -103,6 +128,12 @@ namespace API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Musisoft API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
             app.UseCors("CorsPolicy");

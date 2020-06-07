@@ -14,7 +14,7 @@
         private readonly SymmetricSecurityKey _key;
         public JwtGenerator(IConfiguration config)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c3VwZXIgc2VjcmV0IGtleQ=="));
         }
 
         public string CreateToken(AppUser user)
