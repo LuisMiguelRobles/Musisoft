@@ -48,8 +48,6 @@
                         await _emailSender.SendEmailAsync(companyContact.Contact.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
                     }
                 }
-
-
                 return await Task.FromResult(Unit.Value);
             }
         }

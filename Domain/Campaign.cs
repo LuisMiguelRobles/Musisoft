@@ -10,6 +10,5 @@
         public DateTime EndDate { get; set; }
         public Guid CompanyId { get; set; }
         public Company Company { get; set; }
-
     }
 }

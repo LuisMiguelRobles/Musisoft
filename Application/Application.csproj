@@ -11,12 +11,6 @@
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Campaign\Commands\" />
-    <Folder Include="CompanyContacts\Commands\" />
-    <Folder Include="CompanyContacts\Queries\" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>

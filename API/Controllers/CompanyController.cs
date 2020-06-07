@@ -33,7 +33,6 @@
             return await Mediator.Send(command);
         }
 
-
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Edit(Guid id, Create.Command command)
         {
