@@ -166,25 +166,13 @@ namespace Persistence.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("Domain.CompanyContacts", b =>
-                {
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ContactId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CompanyId", "ContactId");
-
-                    b.HasIndex("ContactId");
-
-                    b.ToTable("CompanyContacts");
-                });
-
             modelBuilder.Entity("Domain.Contact", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
@@ -197,6 +185,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Contacts");
                 });
@@ -348,17 +338,11 @@ namespace Persistence.Migrations
                         .HasForeignKey("AppUserId");
                 });
 
-            modelBuilder.Entity("Domain.CompanyContacts", b =>
+            modelBuilder.Entity("Domain.Contact", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
-                        .WithMany("CompanyContacts")
+                        .WithMany("Contacts")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Contact", "Contact")
-                        .WithMany("CompanyContacts")
-                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

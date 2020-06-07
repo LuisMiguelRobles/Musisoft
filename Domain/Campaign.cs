@@ -9,6 +9,6 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public Guid CompanyId { get; set; }
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

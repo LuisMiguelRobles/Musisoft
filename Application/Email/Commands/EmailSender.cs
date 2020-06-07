@@ -40,12 +40,12 @@
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var campaign = await _context.Campaigns.FindAsync(request.CampaignId);
-                var companyContacts = await _context.CompanyContacts.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
+                var companyContacts = await _context.Contacts.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
                 if (companyContacts.Any())
                 {
-                    foreach (var companyContact in companyContacts)
+                    foreach (var company in companyContacts)
                     {
-                        await _emailSender.SendEmailAsync(companyContact.Contact.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
+                        await _emailSender.SendEmailAsync(company.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
                     }
                 }
                 return await Task.FromResult(Unit.Value);

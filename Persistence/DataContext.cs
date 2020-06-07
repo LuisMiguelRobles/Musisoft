@@ -14,7 +14,6 @@ namespace Persistence
         public DbSet<Company> Companies { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<CompanyContacts> CompanyContacts { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -31,20 +30,9 @@ namespace Persistence
                 .HasMany(c => c.Campaigns)
                 .WithOne(cmp => cmp.Company);
 
-
-            builder.Entity<CompanyContacts>(x =>
-            {
-                x.HasKey(c => c.Id);
-
-                x.HasOne(c => c.Company)
-                    .WithMany(c => c.CompanyContacts)
-                    .HasForeignKey(c => c.CompanyId);
-
-                x.HasOne(c => c.Contact)
-                    .WithMany(c => c.CompanyContacts)
-                    .HasForeignKey(c => c.ContactId);
-
-            });
+            builder.Entity<Company>()
+                .HasMany(cn => cn.Contacts)
+                .WithOne(c => c.Company);
         }
 
     }
