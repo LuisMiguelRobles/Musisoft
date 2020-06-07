@@ -1,7 +1,10 @@
-﻿namespace Application.User
+﻿using System;
+
+namespace Application.User
 {
     public class User
     {
+        public string Id { get; set; }
         public string DisplayName { get; set; }
 
         public string Token { get; set; }
