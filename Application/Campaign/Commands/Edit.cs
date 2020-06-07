@@ -17,8 +17,8 @@
             public Guid Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
+            public DateTime? StartDate { get; set; }
+            public DateTime? EndDate { get; set; }
             public Guid CompanyId { get; set; }
             public Company Company { get; set; }
         }
@@ -55,6 +55,8 @@
                 campaign.Name = request.Name ?? campaign.Name;
                 campaign.Description = request.Description ?? campaign.Description;
                 campaign.Company = request.Company ?? campaign.Company;
+                campaign.StartDate = request.StartDate ?? campaign.StartDate;
+                campaign.EndDate = request.EndDate ?? campaign.EndDate;
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
