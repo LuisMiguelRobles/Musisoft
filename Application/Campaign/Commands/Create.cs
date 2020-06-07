@@ -50,8 +50,7 @@
                     Description = request.Description,
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
-                    CompanyId = request.CompanyId,
-                    Company = request.Company
+                    CompanyId = request.CompanyId
                 };
 
                 _context.Campaigns.Add(campaign);
