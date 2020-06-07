@@ -20,6 +20,8 @@
             public string Name { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
+            public Guid CompanyId { get; set; }
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -29,6 +31,7 @@
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
+                RuleFor(x => x.CompanyId).NotEmpty();
             }
         }
 
@@ -53,7 +56,8 @@
                 {
                     Email = request.Email,
                     Name = request.Name,
-                    LastName = request.LastName
+                    LastName = request.LastName,
+                    CompanyId = request.CompanyId
                 };
 
                 _context.Contacts.Add(contact);
