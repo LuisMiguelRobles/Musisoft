@@ -13,8 +13,7 @@
     {
         public class Query : IRequest<CompanyContacts>
         {
-            public Guid CompanyId { get; set; }
-            public Guid ContactId { get; set; }
+            public Guid Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, CompanyContacts>
@@ -24,9 +23,9 @@
             {
                 _context = context;
             }
-            public async Task<Company> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<CompanyContacts> Handle(Query request, CancellationToken cancellationToken)
             {
-                var companyContacts = await _context.CompanyContacts.FindAsync(request.CompanyId);
+                var companyContacts = await _context.CompanyContacts.FindAsync(request.Id);
 
                 if (companyContacts == null)
                     throw new RestException(HttpStatusCode.NotFound, new { CompanyContacts = "Not found" });

@@ -34,7 +34,7 @@ namespace Persistence
 
             builder.Entity<CompanyContacts>(x =>
             {
-                x.HasKey(cc => new {cc.CompanyId, cc.ContactId});
+                x.HasKey(c => c.Id);
 
                 x.HasOne(c => c.Company)
                     .WithMany(c => c.CompanyContacts)

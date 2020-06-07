@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace Application.CompanyContacts.Queries
 {
+    using System.Collections.Generic;
     using Application.Interfaces;
     using Domain;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
     using Persistence;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -19,17 +17,14 @@ namespace Application.CompanyContacts.Queries
         public class Handler : IRequestHandler<Query, List<CompanyContacts>>
         {
             private readonly DataContext _context;
-            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            public Handler(DataContext context)
             {
                 _context = context;
-                _userAccessor = userAccessor;
             }
             public async Task<List<CompanyContacts>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var queryable = _context.CompanyContacts.AsQueryable();
-                var companyContacts = queryable.Where(x => x.User.UserName == _userAccessor.GetCurrentUsername()).ToListAsync(cancellationToken);
+                var companyContacts = _context.CompanyContacts.ToListAsync(cancellationToken);
                 return await companyContacts;
             }
         }

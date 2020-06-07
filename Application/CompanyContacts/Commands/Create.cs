@@ -11,6 +11,7 @@
     {
         public class Command : IRequest
         {
+            public Guid Id { get; set; }
             public Guid CompanyId { get; set; }
             public Guid ContactId { get; set; }
         }

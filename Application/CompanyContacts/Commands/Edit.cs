@@ -15,6 +15,7 @@ namespace Application.CompanyContacts.Commands
     {
         public class Command : IRequest
         {
+            public Guid Id { get; set; }
             public Guid CompanyId { get; set; }
             public Guid ContactId { get; set; }
         }
@@ -39,10 +40,10 @@ namespace Application.CompanyContacts.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var companyContacts = await _context.CompanyContacts.FindAsync(request.CompanyId);
+                var companyContacts = await _context.CompanyContacts.FindAsync(request.Id);
 
                 if (companyContacts == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { Company = "Not Found" });
+                    throw new RestException(HttpStatusCode.NotFound, new { CompanyContacts = "Not Found" });
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
 
