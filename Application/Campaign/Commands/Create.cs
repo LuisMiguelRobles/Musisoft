@@ -18,7 +18,6 @@
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
             public Guid CompanyId { get; set; }
-            public Company Company { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -30,7 +29,6 @@
                 RuleFor(x => x.StartDate).NotEmpty();
                 RuleFor(x => x.EndDate).NotEmpty();
                 RuleFor(x => x.CompanyId).NotEmpty();
-                RuleFor(x => x.Company).NotEmpty();
             }
         }
 

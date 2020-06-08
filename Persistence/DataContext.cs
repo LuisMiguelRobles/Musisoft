@@ -28,11 +28,14 @@ namespace Persistence
 
             builder.Entity<Company>()
                 .HasMany(c => c.Campaigns)
-                .WithOne(cmp => cmp.Company);
+                .WithOne(cmp => cmp.Company)
+                .HasForeignKey(c => c.CompanyId);
+
 
             builder.Entity<Company>()
                 .HasMany(cn => cn.Contacts)
-                .WithOne(c => c.Company);
+                .WithOne(c => c.Company)
+                .HasForeignKey(c => c.CompanyId);
         }
 
     }
