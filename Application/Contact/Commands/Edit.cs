@@ -17,7 +17,7 @@
             public string Name { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
-            public Guid? CompanyId { get; set; }
+            public string? AppUserId { get; set; }
 
         }
 
@@ -28,7 +28,7 @@
                 RuleFor(x => x.Email).EmailAddress();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
-                RuleFor(x => x.CompanyId).NotEmpty();
+                RuleFor(x => x.AppUserId).NotEmpty();
             }
         }
 
@@ -50,7 +50,7 @@
                 contact.Email = request.Email ?? contact.Email;
                 contact.Name = request.Name ?? contact.Name;
                 contact.LastName = request.LastName ?? contact.LastName;
-                contact.CompanyId = request.CompanyId ?? contact.CompanyId;
+                contact.AppUserId = request.AppUserId ?? contact.AppUserId;
 
 
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;

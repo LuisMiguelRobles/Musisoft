@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200608011849_CompleteModel")]
+    [Migration("20200612212207_CompleteModel")]
     partial class CompleteModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,8 +174,8 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -188,7 +188,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Contacts");
                 });
@@ -342,11 +342,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Contact", b =>
                 {
-                    b.HasOne("Domain.Company", "Company")
+                    b.HasOne("Domain.AppUser", "User")
                         .WithMany("Contacts")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

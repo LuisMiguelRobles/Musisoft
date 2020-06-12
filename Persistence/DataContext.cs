@@ -26,16 +26,16 @@ namespace Persistence
                 .HasMany(u => u.Companies)
                 .WithOne(c => c.User);
 
+            builder.Entity<AppUser>()
+                .HasMany(u => u.Contacts)
+                .WithOne(c => c.User);
+
             builder.Entity<Company>()
                 .HasMany(c => c.Campaigns)
                 .WithOne(cmp => cmp.Company)
                 .HasForeignKey(c => c.CompanyId);
 
 
-            builder.Entity<Company>()
-                .HasMany(cn => cn.Contacts)
-                .WithOne(c => c.Company)
-                .HasForeignKey(c => c.CompanyId);
         }
 
     }

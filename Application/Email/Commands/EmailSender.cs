@@ -15,14 +15,12 @@
         public class Command : IRequest
         {
             public Guid CampaignId { get; set; }
-            public Guid CompanyId { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(x => x.CompanyId).NotEmpty();
                 RuleFor(x => x.CampaignId).NotEmpty();
             }
         }
@@ -31,21 +29,23 @@
         {
             private readonly DataContext _context;
             private readonly IEmailSender _emailSender;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IEmailSender emailSender)
+            public Handler(DataContext context, IEmailSender emailSender, IUserAccessor userAccessor)
             {
                 _context = context;
                 _emailSender = emailSender;
+                _userAccessor = userAccessor;
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var campaign = await _context.Campaigns.FindAsync(request.CampaignId);
-                var companyContacts = await _context.Contacts.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
-                if (companyContacts.Any())
+                var contacts = await _context.Contacts.Where(x => x.User.UserName == _userAccessor.GetCurrentUsername()).ToListAsync(cancellationToken);
+                if (contacts.Any())
                 {
-                    foreach (var company in companyContacts)
+                    foreach (var contact in contacts)
                     {
-                        await _emailSender.SendEmailAsync(company.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
+                        await _emailSender.SendEmailAsync(contact.Email, campaign.Name, campaign.Description).ConfigureAwait(false);
                     }
                 }
                 return await Task.FromResult(Unit.Value);

@@ -20,7 +20,7 @@
             public string Name { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
-            public Guid CompanyId { get; set; }
+            public string AppUserId { get; set; }
 
         }
 
@@ -31,7 +31,7 @@
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Name).NotEmpty();
                 RuleFor(x => x.LastName).NotEmpty();
-                RuleFor(x => x.CompanyId).NotEmpty();
+                RuleFor(x => x.AppUserId).NotEmpty();
             }
         }
 
@@ -57,7 +57,7 @@
                     Email = request.Email,
                     Name = request.Name,
                     LastName = request.LastName,
-                    CompanyId = request.CompanyId
+                    AppUserId = request.AppUserId
                 };
 
                 _context.Contacts.Add(contact);

@@ -40,9 +40,8 @@
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Delete(Guid id, Create.Command command)
+        public async Task<ActionResult<Unit>> Delete(Guid id)
         {
-            command.Id = id;
             return await Mediator.Send(new Delete.Command { Id = id });
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Application.Interfaces;
 
 namespace Application.Contact.Queries
 {
@@ -15,20 +16,21 @@ namespace Application.Contact.Queries
     {
         public class Query : IRequest<List<Contact>>
         {
-            public Guid CompanyId { get; set; }
         }
         public class Handler : IRequestHandler<Query, List<Contact>>
         {
             private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _context = context;
+                _userAccessor = userAccessor;
             }
             public async Task<List<Contact>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var queryable = _context.Contacts.AsQueryable();
-                var contacts = queryable.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
+                var contacts = queryable.Where(x => x.User.UserName == _userAccessor.GetCurrentUsername()).ToListAsync(cancellationToken);
                 return await contacts;
             }
         }

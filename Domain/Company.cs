@@ -10,6 +10,5 @@
         public string AppUserId { get; set; }
         public virtual AppUser User { get; set; }
         public ICollection<Campaign> Campaigns { get; set; }
-        public ICollection<Contact> Contacts { get; set; }
     }
 }
