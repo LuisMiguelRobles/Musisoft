@@ -14,7 +14,6 @@
     {
         public class Query: IRequest<List<Campaign>>
         {
-            public Guid CompanyId { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, List<Campaign>>
@@ -27,8 +26,7 @@
             }
             public async Task<List<Campaign>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var queryable = _context.Campaigns.AsQueryable();
-                var campaigns = queryable.Where(x => x.CompanyId == request.CompanyId).ToListAsync(cancellationToken);
+                var campaigns = _context.Campaigns.ToListAsync(cancellationToken);
                 return await campaigns;
             }
         }
